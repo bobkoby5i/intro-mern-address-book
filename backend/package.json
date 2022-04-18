@@ -4,8 +4,8 @@
   "description": "Address book ",
   "main": "server.js",
   "scripts": {
-    "start":  "node server.js",
     "server": "nodemon server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -22,5 +22,11 @@
   "devDependencies": {
     "concurrently": "^7.1.0",
     "nodemon": "^2.0.15"
-  }
+  },
+  "engines": {
+    "node": "14.16",
+    "npm": "6.14"
+  }  
 }
+
+
