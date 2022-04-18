@@ -1,5 +1,10 @@
 const express = require('express');
-const PORT = process.env.PORT || 3000
+const connectDB = require('./config/db');
+const PORT = process.env.PORT || 3000;
+
+// Connect Databse
+connectDB();
+
 const server = express();
 server.use(express.json());
 
