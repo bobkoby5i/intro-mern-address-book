@@ -8,9 +8,9 @@
 
 const mongoose = require('mongoose');
 const config = require('config'); // for ./config/default.json
-const mongo_uri = config.get("MONGO_URI");
+//const mongo_uri = config.get("MONGO_URI");
 // const mongo_uri = process.env.MONGO_MERN_ADDRESS_BOOK_URI || "mongodb://localhost:27017/intro-address-book-db";
-// const mongo_uri = process.env.MONGO_MERN_ADDRESS_BOOK_URI || config.get("MONGO_URI"); // read from ./config/default.json
+const mongo_uri = process.env.MONGO_MERN_ADDRESS_BOOK_URI || config.get("MONGO_URI"); // read from ./config/default.json
 
 console.log(mongo_uri);
 
