@@ -1,4 +1,5 @@
 {
     "MONGO_URI": "mongodb://localhost:27017/intro-address-book-db",
-    "JWT_SECRET": "44b2a789034e6c8df9d10f35a88cc8fc"
+    "JWT_SECRET": "44b2a789034e6c8df9d10f35a88cc8fc",
+    "JWT_EXPIRE": 3600
 }

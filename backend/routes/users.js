@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config'); // for ./config/default.json
 const JWT_SECRET = process.env.MERN_ADDRESS_BOOK_JWT_SECRET || config.get("JWT_SECRET"); // read from ./config/default.json
+const JWT_EXPIRE = config.get("JWT_EXPIRE");
 
 
 const User = require('../models/User')
@@ -15,7 +16,7 @@ router.get("/hello", async (req, res) => {
     try {
         res.json({msg: 'Welcome to address book API /api/users/hello'})        
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.send("An error occured.");
     }
 });
@@ -60,13 +61,11 @@ router.post("/", [
             }
 
             jwt.sign(payload, JWT_SECRET, {
-                expiresIn: 3600, // 1h
+                expiresIn: JWT_EXPIRE // 3600 = 1h
             }, (err,token) => {
                 if (err) throw err;
                 res.status(201).json({ token })
             })
-
-            
         } catch (err) {
             console.error(err.message);
             res.status(500).send("Backend server error.");
