@@ -1,16 +1,13 @@
 const express = require('express')
 const router = express.Router();
 const User = require('../models/User')
-const {check, validationResult } = require('express-validator/check');
+const {check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config'); // for ./config/default.json
 const JWT_SECRET = process.env.MERN_ADDRESS_BOOK_JWT_SECRET || config.get("JWT_SECRET"); // read from ./config/default.json
 const JWT_EXPIRE = config.get("JWT_EXPIRE");
 const verifyTokenJWT = require('../middleware/auth-verifytoken')
-
-
-
 
 
 router.get("/hello", async (req, res) => {
@@ -27,12 +24,12 @@ router.get("/", verifyTokenJWT, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password'); 
         if (!user) {
-            return res.status(400).json({msg: `User ${req.user.id} not found in Mongo.`})
+            return res.status(400).json({msg: `User ${req.user.id} not found in MongoDB.`})
         }
         res.status(200).json(user);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("Backend server error.");              
+        res.status(500).send("Server error.");              
     }
 });
 

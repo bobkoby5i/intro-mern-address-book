@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {check, validationResult } = require('express-validator/check');
+const {check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config'); // for ./config/default.json
@@ -13,12 +13,7 @@ const User = require('../models/User')
 // @route GET api/users/hello
 router.get("/hello", async (req, res) => {
     console.log("GET /api/users/hello in users.js")
-    try {
-        res.json({msg: 'Welcome to address book API /api/users/hello'})        
-    } catch (error) {
-        console.error(error);
-        res.send("An error occured.");
-    }
+    res.json({msg: 'Welcome to address book API /api/users/hello'})        
 });
 
 
@@ -64,7 +59,7 @@ router.post("/", [
                 expiresIn: JWT_EXPIRE // 3600 = 1h
             }, (err,token) => {
                 if (err) throw err;
-                res.status(201).json({ token })
+                return res.status(201).json({ token })
             })
         } catch (err) {
             console.error(err.message);

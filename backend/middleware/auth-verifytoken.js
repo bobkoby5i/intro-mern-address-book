@@ -1,4 +1,4 @@
-// check if tolken is in header and valid
+// check if token is in header and valid
 const jwt = require('jsonwebtoken');
 const config = require('config'); // for ./config/default.json
 const JWT_SECRET = process.env.MERN_ADDRESS_BOOK_JWT_SECRET || config.get("JWT_SECRET"); // read from ./config/default.json
@@ -6,15 +6,6 @@ const JWT_SECRET = process.env.MERN_ADDRESS_BOOK_JWT_SECRET || config.get("JWT_S
 function verifyTokenJWTXAuth(req, res, next) {
     // get token from header
     const token = req.header('x-auth-token');
-
-    // if (!req.headers.authorization) {
-    //     return res.status(401).send("Unauthorized request. No authorization header.");
-    // }
-    // let token = req.headers.authorization.split(' ')[1]; // Bearer xx.yy.zz    
-    // if (token === null) {
-    //     return res.status(401).send("Unauthorized request. No Bearer token.");
-    // }    
-
 
     //check if exist 
     if (!token) {
@@ -32,18 +23,13 @@ function verifyTokenJWTXAuth(req, res, next) {
 
 function verifyTokenJWTBearer(req, res, next) {
     // get token from header
-    // const token = req.header('x-auth-token');
 
     if (!req.headers.authorization) {
         return res.status(401).send("Unauthorized request. No authorization header.");
     }
     let token = req.headers.authorization.split(' ')[1]; // Bearer xx.yy.zz    
-    // if (token === null) {
-    //     return res.status(401).send("Unauthorized request. No Bearer token.");
-    // }    
 
-
-    //check if exist 
+    //check if found
     if (!token) {
         return res.status(401).json({msg:"Missing token, Authorization denied."});
     }
