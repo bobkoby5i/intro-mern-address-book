@@ -24,7 +24,16 @@ router.get("/hello", async (req, res) => {
 // @access   Private
 router.get("/", verifyTokenJWT, async (req, res) => {
     console.log("GET /api/auth in auth.js")
-    res.send("GET logged user");
+    try {
+        const user = await User.findById(req.user.id).select('-password'); 
+        if (!user) {
+            return res.status(400).json({msg: `User ${req.user.id} not found in Mongo.`})
+        }
+        res.status(200).json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Backend server error.");              
+    }
 });
 
 // @route    POST api/auth
