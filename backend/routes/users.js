@@ -1,7 +1,11 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router();
 const {check, validationResult } = require('express-validator/check');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config'); // for ./config/default.json
+const JWT_SECRET = process.env.MERN_ADDRESS_BOOK_JWT_SECRET || config.get("JWT_SECRET"); // read from ./config/default.json
+
 
 const User = require('../models/User')
 
@@ -47,7 +51,23 @@ router.post("/", [
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, salt);
             await user.save();
-            res.status(201).send("User registered successfully. ");
+
+            const payload = {
+                user: {
+                    id: user.id,
+                    email: user.email,
+                }
+            }
+
+            jwt.sign(payload, JWT_SECRET, {
+                expiresIn: 3600, // 1h
+            }, (err,token) => {
+                if (err) throw err;
+                res.josn
+                res.status(201).json({ token })
+            })
+
+            
         } catch (err) {
             console.error(err.message);
             res.status(500).send("Backend server error.");

@@ -1,3 +1,5 @@
 {
-    "MONGO_URI": "mongodb+srv://<user>:<password>@<host>/intro-address-book-db?retryWrites=true&w=majority"
+    "MONGO_URI": "mongodb+srv://<user>:<password>@<host>/intro-address-book-db?retryWrites=true&w=majority",
+    "JWT_SECRET": "<secret>"
+
 }
