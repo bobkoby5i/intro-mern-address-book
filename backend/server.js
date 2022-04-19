@@ -6,7 +6,12 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 const server = express();
-server.use(express.json());
+
+// Init middleware to parse json i requests
+//server.use(bodyParser.json())
+//server.use(express.json());
+//server.use(express.urlencoded({extended: false}));
+server.use(express.json({extended: false})); // use querystring library
 
 server.get('/',(req, res) => res.json({msg: 'Welcome to address book API'}));
 

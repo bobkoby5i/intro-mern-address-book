@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const {check, validationResult } = require('express-validator/check');
+const bcrypt = require('bcryptjs')
 
 const User = require('../models/User')
 
@@ -31,9 +32,27 @@ router.post("/", [
         }
         console.log("POST /api/users in users.js")
         console.log(req.body)
-        const {email, password} = req.body
-        console.log(`email ${email} password ${password}`)
-        res.status(201).send("User registered sucessfuly. ");
+        const {name, email, password} = req.body;
+        console.log(`email ${name}  email ${email} password ${password}`)
+        try {
+            let user = await User.findOne({email}); // {email: email}
+            if (user) {
+                return res.status(400).json({msg: `User ${email} already exists.`})
+            }
+            user = new User({
+                name,
+                email,
+                password 
+            });
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(password, salt);
+            await user.save();
+            res.status(201).send("User registered successfully. ");
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send("Backend server error.");
+        }
+
     }
 );
 
