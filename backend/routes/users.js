@@ -37,7 +37,7 @@ router.post("/", [
         console.log("POST /api/users in users.js")
         console.log(req.body)
         const {name, email, password} = req.body;
-        console.log(`email ${name}  email ${email} password ${password}`)
+        console.log(`name: ${name}  email: ${email} password: ****`)
         try {
             let user = await User.findOne({email}); // {email: email}
             if (user) {
@@ -63,7 +63,6 @@ router.post("/", [
                 expiresIn: 3600, // 1h
             }, (err,token) => {
                 if (err) throw err;
-                res.josn
                 res.status(201).json({ token })
             })
 
