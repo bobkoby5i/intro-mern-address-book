@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config'); // for ./config/default.json
 const JWT_SECRET = process.env.MERN_ADDRESS_BOOK_JWT_SECRET || config.get("JWT_SECRET"); // read from ./config/default.json
 const JWT_EXPIRE = config.get("JWT_EXPIRE");
+const verifyTokenJWT = require('../middleware/auth-verifytoken')
 
 
 
@@ -21,7 +22,7 @@ router.get("/hello", async (req, res) => {
 // @route    GET api/auth
 // @desc     Get logged in user
 // @access   Private
-router.get("/", async (req, res) => {
+router.get("/", verifyTokenJWT, async (req, res) => {
     console.log("GET /api/auth in auth.js")
     res.send("GET logged user");
 });
