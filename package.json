@@ -1,0 +1,31 @@
+{
+  "name": "intro-mern-address-book",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "backend":"cd backend && nodemon server --prefix backend",
+    "backendinstall": "npm install --prefix backend",
+    "client": "cd frontend && npm start",
+    "client2": "npm start --prefix frontend",
+    "clientinstall": "npm install --prefix frontend",
+    "dev": "concurrently \"npm run backend\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-bobkoby5i:bobkoby5i/intro-mern-address-book.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.1.0",
+    "nodemon": "^2.0.15"
+  }
+}
