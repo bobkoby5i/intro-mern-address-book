@@ -15,7 +15,7 @@ import {
 
 const ContactState = props => {
     const initialState = {
-        conatcts: [
+        contacts: [
                 {
                     "id": 1,
                     "name": "bob",
