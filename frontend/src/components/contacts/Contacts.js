@@ -9,13 +9,20 @@ const Contacts = () => {
     const { contacts } = contactContext;
     console.log(contacts);
 
+    if (contacts.length === 0) {
+        return (<>
+        <h2>Contacts</h2>
+        <p>0 contacts</p>
+        </>)
+    }
+
     return (
         <Fragment>
-            <h1>Contacts</h1>
+            <h2>Contacts</h2>
                 {
                     contacts.map((contact,index) => (
                     <ContactItem key={contact.id} contact={contact}></ContactItem>
-                    ))
+                ))
                 }
         </Fragment>
     )
