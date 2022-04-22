@@ -5,10 +5,11 @@ const Home = () => {
     return(
         <>
             <h1>Home</h1>
+         
+            <div className="grid-2">
             <div>
                     Contact form to be here.
-            </div>            
-            <div className="grid-2">
+            </div>                   
                 <div>
                     <Contacts/>
                 </div>
