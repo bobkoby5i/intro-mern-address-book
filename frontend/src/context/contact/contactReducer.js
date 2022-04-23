@@ -15,6 +15,17 @@ const fn = (state,action) => {
                 ...state,
                 contacts: [...state.contacts, action.payload]
             }
+        case CONTACT_UPDATE:
+            console.log("inside contactReducer update", action.payload)
+            
+            return {
+                ...state,
+                //contacts: [...state.contacts.filter((contact) => contact.id!==action.payload.id ), action.payload]
+                // ponizej troche sprytniej i nie zmienia kolejnosci
+                contacts: state.contacts.map((contact,index) => {
+                    return contact.id === action.payload.id ?  action.payload : contact
+                })
+            }
         case CONTACT_DELETE:
             return {
                 ...state,
