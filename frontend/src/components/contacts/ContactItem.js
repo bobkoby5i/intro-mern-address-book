@@ -5,10 +5,17 @@ import ContactContext from "../../context/contact/contactContext";
 
 const ContactItem= ({contact}) => {
     const contactContext = useContext(ContactContext)
+    const { deleteContact, setCurrent, clearCurrent } = contactContext;
     const {id, name, email, phone, type} = contact;
 
     const onDelete = () =>  {
-        contactContext.deleteContact(id);        
+        contactContext.deleteContact(id);      
+        clearCurrent();  
+    }
+
+    const onEdit = () =>  {
+        console.log("inside onEdit")
+        contactContext.setCurrent(contact);        
     }
 
     return (
@@ -24,7 +31,9 @@ const ContactItem= ({contact}) => {
                 { phone && (<li><i className="fas fa-phone"></i>{phone}</li>) }
             </ul>
             <p>
-                <button className="btn btn-dark btn-sm">Edit</button>
+                <button className="btn btn-dark btn-sm" onClick={onEdit}>Edit</button>
+                {/* // tu mam blad */}
+                {/* <button className="btn btn-dark btn-sm" onClick={() => setCurrent(contact)}>Edit</button>   */}
                 <button className="btn btn-danger btn-sm" onClick={onDelete}>Delete</button>
             </p>
         </div>

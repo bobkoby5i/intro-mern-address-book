@@ -20,7 +20,19 @@ const fn = (state,action) => {
                 ...state,
                 contacts: state.contacts.filter((contact) => contact.id!==action.payload )
             }
-            default: 
+        case CONTACT_CURRENT_SET:
+            console.log("inside contactReducer", action.payload)
+           
+            return {
+                ...state,
+                current: action.payload
+            }
+        case CONTACT_CURRENT_CLEAR:
+            return {
+                ...state,
+                current: null
+            }
+        default: 
             return state;
     }
 

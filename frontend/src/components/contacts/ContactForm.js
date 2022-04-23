@@ -14,6 +14,7 @@ const ContactForm = () => {
 
     const  onChange = (e) => setContact({...contact, [e.target.name]: e.target.value}); // take current state contact and apply value
 
+
     const onSubmit = (e) => {
         e.preventDefault();
         contactContext.addContact(contact);
