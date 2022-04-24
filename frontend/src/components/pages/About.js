@@ -8,7 +8,7 @@ const About = () => {
     const REACT_APP_WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
     console.log("API_KEY1:",REACT_APP_WEATHER_API_KEY)
 
-    const REACT_APP_BACKEND_URL = 'http://localhost:5000' || process.env.REACT_APP_BACKEND_URL;
+    const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
     useEffect( ()=> {
         fetch(`${REACT_APP_BACKEND_URL}/version`, {  method: 'GET' })
