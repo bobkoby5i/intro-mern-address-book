@@ -43,6 +43,21 @@ const fn = (state,action) => {
                 ...state,
                 current: null
             }
+        case FILTER_CONTACTS:
+            console.log("filter contacts. payload:", action.payload)
+            return {
+                ...state,
+                filtered: state.contacts.filter((contact) => {
+                    const regex = new RegExp(`${action.payload}`, 'gi');
+                    return contact.name.match(regex) || contact.email.match(regex);
+                })
+            }
+        case FILTER_CLEAR:
+            return {
+                ...state,
+                filtered: null
+            }
+    
         default: 
             return state;
     }

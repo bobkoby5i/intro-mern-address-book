@@ -7,8 +7,10 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 const server = express();
-server.use(cors())
+//Simple Usage (Enable All CORS Requests)
+//server.use(cors())
 
+  
 // Init middleware to parse json i requests
 //server.use(bodyParser.json())
 //server.use(express.json());
@@ -17,11 +19,21 @@ server.use(express.json({extended: false})); // use querystring library
 
 server.get('/',(req, res) => res.json({msg: 'Welcome to address book API'}));
 
-server.get('/hello', function(req, res){
+//Enable CORS for a Single Route
+let corsOptions = {
+    origin: 'http://localhost:3001',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
+server.get('/hello', cors(corsOptions), function(req, res){
     console.log('GET /hello');    
-    res.send('Hello from Server')
+    res.send({msg:'Hello from Server. This is CORS-enabled for only example.com.'})
 })
 
+server.get('/hello/json', cors(corsOptions), function(req, res){
+    console.log('GET /hello/json');    
+    res.status(200).json({msg: 'Hello from Server. This is CORS-enabled for only http://localhost:3001.' })
+})
 
 // define routs
 server.use('/api/users', require('./routes/users'));

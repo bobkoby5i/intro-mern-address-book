@@ -27,8 +27,8 @@ const ContactItem= ({contact}) => {
                 </span>
             </h3>
             <ul className="list">
-                { email && (<li><i className="fas fa-envelope open"></i>{email}</li>) }
-                { phone && (<li><i className="fas fa-phone"></i>{phone}</li>) }
+                { email && (<li><i className="fas fa-envelope open"></i> {email}</li>) }
+                { phone && (<li><i className="fas fa-phone"></i> {phone}</li>) }
             </ul>
             <p>
                 <button className="btn btn-dark btn-sm" onClick={onEdit}>Edit</button>
