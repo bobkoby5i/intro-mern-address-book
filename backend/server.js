@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const connectDB = require('./config/db');
 const PORT = process.env.PORT || 5000;
+const VERSION="1.1.0";
 
 // Connect Databse
 connectDB();
@@ -34,6 +35,12 @@ server.get('/hello/json', cors(corsOptions), function(req, res){
     console.log('GET /hello/json');    
     res.status(200).json({msg: 'Hello from Server. This is CORS-enabled for only http://localhost:3001.' })
 })
+
+server.get('/version', cors(), function(req, res){
+    console.log('GET /version');    
+    res.status(200).json({ver: VERSION, msg: 'Hello from Backedn Server. This is CORS-enabled for all.' })
+})
+
 
 // define routs
 server.use('/api/users', require('./routes/users'));
