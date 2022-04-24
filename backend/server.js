@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const connectDB = require('./config/db');
 const PORT = process.env.PORT || 5000;
 
@@ -6,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 const server = express();
+server.use(cors())
 
 // Init middleware to parse json i requests
 //server.use(bodyParser.json())
