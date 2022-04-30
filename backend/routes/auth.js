@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const router = express.Router();
 const User = require('../models/User')
 const {check, validationResult } = require('express-validator');
@@ -10,7 +11,14 @@ const JWT_EXPIRE = config.get("JWT_EXPIRE");
 const verifyTokenJWT = require('../middleware/auth-verifytoken')
 
 
-router.get("/hello", async (req, res) => {
+let corsOptions = {
+    origin: ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com','https://koby5i-mern-address-book.herokuapp.com'],
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
+  
+
+router.get("/hello", cors(corsOptions), async (req, res) => {
     console.log("GET /api/auth/hello in auth.js")
     res.json({msg: 'Welcome to address book API /api/auth/hello'})        
 });
@@ -19,7 +27,7 @@ router.get("/hello", async (req, res) => {
 // @route    GET api/auth
 // @desc     Get logged in user
 // @access   Private
-router.get("/", verifyTokenJWT, async (req, res) => {
+router.get("/", cors(corsOptions), verifyTokenJWT, async (req, res) => {
     console.log("GET /api/auth in auth.js")
     try {
         const user = await User.findById(req.user.id).select('-password'); 
@@ -36,7 +44,7 @@ router.get("/", verifyTokenJWT, async (req, res) => {
 // @route    POST api/auth
 // @desc     Auth user and get token
 // @access   Public
-router.post("/", [
+router.post("/", cors(corsOptions), [
         check('email', 'Please include a valid email').isEmail(),
         check('password', 'Password is required').exists(),
     ], 

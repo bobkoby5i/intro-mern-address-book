@@ -22,7 +22,7 @@ server.get('/',(req, res) => res.json({msg: 'Welcome to address book API'}));
 
 //Enable CORS for a Single Route
 let corsOptions = {
-    origin: 'http://localhost:3001',
+    origin: ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com','https://koby5i-mern-address-book.herokuapp.com'],
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
