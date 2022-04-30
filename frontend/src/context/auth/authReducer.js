@@ -12,11 +12,31 @@ import {
 
 const fn = (state,action) => {
     switch(action.type) {
-        case USER_LOADED:
+        case REGISTER_SUCCESS:
+            localStorage.setItem('intro-mern-address-book-token',action.payload.token);
             return {
                 ...state,
-                contacts: [...state.contacts, action.payload]
+                token: action.payload.token,
+                isAuthenticated: true,
+                loading:false
             }
+        case REGISTER_FAIL:
+            localStorage.removeItem('token');
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                loading: false,
+                user:null,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            localStorage.removeItem('token');
+            return {
+                ...state,
+                error:null
+            }
+        
         default: 
             return state;
     }
