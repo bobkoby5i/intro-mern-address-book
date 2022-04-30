@@ -28,6 +28,8 @@ router.get("/hello", cors(corsOptions), async (req, res) => {
 // @route    POST api/users
 // @desc     Register a user
 // @access   Public
+
+router.options("/", cors()) //// enable pre-flight request for POST 
 router.post("/", cors(corsOptions), [
         check('name', 'Please enter name.').not().isEmpty(),
         check('email', 'Please include a valid email').isEmail(),
