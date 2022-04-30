@@ -1,6 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import AlertContext from '../../context/alert/alertContext';
 
 const Login = () => {
+    const alertContext = useContext(AlertContext)
+
+    const {setAlert } = alertContext;
+
   const   [user, setUser ] = useState({
       email: '', 
       password:'',
@@ -23,11 +28,11 @@ const Login = () => {
             Account <span className="text-primary">Login</span>
         </h1>
         <form onSubmit={onSubmit}>
-            <div classname='form-group'>
+            <div className='form-group'>
                 <label htmlFor="email">Email address</label>
                 <input type="email" name="email" value={email} onChange={onChange}/>
             </div>
-            <div classname='form-group'>
+            <div className='form-group'>
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password" value={password} onChange={onChange}/>
             </div>
