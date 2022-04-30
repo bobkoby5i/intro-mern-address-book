@@ -13,7 +13,7 @@ import {
     CLEAR_ERRORS
 } from'../types';
 
-
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
 
 const AuthState = props => {
     const initialState = {
@@ -40,7 +40,7 @@ const register = async (formData) => {
     try {
         //usin proxy value from package josn 
         //TODO: move it to build and env.producion or env.varible 
-        const res = await axios.post('/api/users', formData, config);
+        const res = await axios.post(REACT_APP_BACKEND_URL + '/api/users', formData, config);
         // in response form API we get {roken}
         dispatch({
             type: REGISTER_SUCCESS,

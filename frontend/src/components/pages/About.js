@@ -8,7 +8,7 @@ const About = () => {
     const REACT_APP_WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
     console.log("API_KEY1:",REACT_APP_WEATHER_API_KEY)
 
-    const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+    const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
 
     useEffect( ()=> {
         fetch(`${REACT_APP_BACKEND_URL}/version`, {  method: 'GET' })
@@ -44,6 +44,9 @@ const About = () => {
          <p className="bk-dark p">
             <strong>Technology : </strong> MongoDB Atlas, Heroku, NodeJS API back-end, React with hooks front-end
          </p>
+         <p className="bk-dark p">
+             <strong>REACT_APP_BACKEND_URL API: </strong> {REACT_APP_BACKEND_URL} 
+         </p>         
          <p className="bk-dark p">
              <strong>Front-end ver. : </strong> 1.0.0
          </p>
