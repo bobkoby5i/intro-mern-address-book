@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const router = express.Router();
 const {check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
@@ -10,8 +11,14 @@ const JWT_EXPIRE = config.get("JWT_EXPIRE");
 
 const User = require('../models/User')
 
+let corsOptions = {
+    origin: ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com','https://koby5i-mern-address-book.herokuapp.com'],
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
+
 // @route GET api/users/hello
-router.get("/hello", async (req, res) => {
+router.get("/hello", cors(corsOptions), async (req, res) => {
     console.log("GET /api/users/hello in users.js")
     res.json({msg: 'Welcome to address book API /api/users/hello'})        
 });
@@ -20,7 +27,7 @@ router.get("/hello", async (req, res) => {
 // @route    POST api/users
 // @desc     Register a user
 // @access   Public
-router.post("/", [
+router.post("/", cors(corsOptions), [
         check('name', 'Please enter name.').not().isEmpty(),
         check('email', 'Please include a valid email').isEmail(),
         check('password', 'Password must be  6 or more characters').isLength({min:6}),
