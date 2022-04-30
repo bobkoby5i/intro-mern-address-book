@@ -12,7 +12,8 @@ const JWT_EXPIRE = config.get("JWT_EXPIRE");
 const User = require('../models/User')
 
 let corsOptions = {
-    origin: ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com','https://koby5i-mern-address-book.herokuapp.com'],
+    //origin: ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com/','https://koby5i-mern-address-book.herokuapp.com/'],
+    origin: 'https://koby5i-mern-address-book-fe.herokuapp.com',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
