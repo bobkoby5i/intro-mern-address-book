@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
 
+const REACT_APP_WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+console.log("API_KEY1:",REACT_APP_WEATHER_API_KEY)
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+
+
 const About = () => {
     const [ip, setIp] = useState("");
     const [backEndVersion, setBackEndVersion] = useState({ver:"",msg:""});
 
 
-    const REACT_APP_WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
-    console.log("API_KEY1:",REACT_APP_WEATHER_API_KEY)
-
-    const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
 
     useEffect( ()=> {
         fetch(`${REACT_APP_BACKEND_URL}/version`, {  method: 'GET' })
@@ -31,7 +32,6 @@ const About = () => {
             // console.log(ip);
             setIp(ip)
         }).catch(error => {console.error('wystapil blad', error)})
-
     },[]);    
 
 
