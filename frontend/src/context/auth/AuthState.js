@@ -43,6 +43,7 @@ const loadUser = async () => {
         dispatch({
             type: LOGOUT, 
         })
+        return
     }
 
     try {
