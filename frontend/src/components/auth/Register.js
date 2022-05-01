@@ -4,7 +4,7 @@ import AlertContext from '../../context/alert/alertContext';
 import AuthContext from '../../context/auth/authContext';
 
 
-const Register = props => {
+const Register = () => {
   const alertContext = useContext(AlertContext)
   const authContext = useContext(AuthContext)
   const navigate = useNavigate();
@@ -31,8 +31,9 @@ const Register = props => {
         setAlert(error, 'danger')   
         clearErrors();     
       }
-      // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history])
+      // complains about setAlert clearErrors
+      // eslint-disable-next-line 
+  }, [error, isAuthenticated])
 
   const onChange = (e) => {
     setUser({...user, [e.target.name]: e.target.value})

@@ -19,7 +19,7 @@ const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://local
 const AuthState = props => {
     const initialState = {
         user: null,
-        token: localStorage.getItem('token'),
+        token: localStorage.getItem("intro-mern-address-book-token"),
         isAuthenticated: null,
         loading: true,
         error: null
@@ -33,6 +33,9 @@ const loadUser = async () => {
     // load tokeninto global headers / interceptor Bearer
     if (localStorage["intro-mern-address-book-token"]) {
         setAuthToken(localStorage["intro-mern-address-book-token"])
+    } else {
+        console.log("No token found in localStorage -> Register or Login first.")
+        return 
     }
 
     try {
@@ -67,7 +70,13 @@ const register = async (formData) => {
         //usin proxy value from package josn 
         //TODO: move it to build and env.producion or env.varible 
         const res = await axios.post(REACT_APP_BACKEND_URL + '/api/users', formData, config);
-        // in response form API we get {roken}
+
+
+        // in response form API we get {token}
+        //TODO; shall I remove ti from here ? we have racing dispatch sets token & loadusers - needs token
+        console.log("writing local storage token in Register()", res.data.token)
+        localStorage.setItem('intro-mern-address-book-token',res.data.token);
+
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data

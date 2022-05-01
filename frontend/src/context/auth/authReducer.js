@@ -21,6 +21,7 @@ const fn = (state,action) => {
             }
 
         case REGISTER_SUCCESS:
+            console.log("writing local storage token in Reducer REGISTER_SUCCESS", action.payload.token)
             localStorage.setItem('intro-mern-address-book-token',action.payload.token);
             return {
                 ...state,

@@ -15,13 +15,15 @@ import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
 
-// load tokeninto global headers / interceptor Bearer
-if (localStorage["intro-mern-address-book-token"]) {
-    setAuthToken(localStorage["intro-mern-address-book-token"])
-}
 
 
 const App = () => {
+
+// load tokeninto global headers / interceptor Bearer
+if (localStorage["intro-mern-address-book-token"]) {
+  setAuthToken(localStorage["intro-mern-address-book-token"])
+}
+
 
 
   return (
