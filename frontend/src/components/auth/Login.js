@@ -1,25 +1,57 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
+
 
 const Login = () => {
-    const alertContext = useContext(AlertContext)
+    const alertContext = useContext(AlertContext);
+    const authContext = useContext(AuthContext);
+    const navigate = useNavigate();
+
 
     const {setAlert } = alertContext;
+    const {login, error, clearErrors, isAuthenticated } = authContext;
 
   const   [user, setUser ] = useState({
       email: '', 
       password:'',
   })
 
-  const {name, email, password, password2} = user;
+  const {email, password} = user;
 
   const onChange = (e) => {
     setUser({...user, [e.target.name]: e.target.value})
   }
 
+  useEffect(()=>{
+    console.log("inside useEffect Login form..")
+    if (isAuthenticated) {
+        console.log("isAuthenticated:",isAuthenticated)
+        navigate('/');
+    }
+    if (error !== null) {
+      console.log("error:",error)
+      setAlert(error, 'danger')   
+      clearErrors();     
+    }
+    // complains about setAlert clearErrors
+    // eslint-disable-next-line 
+}, [error, isAuthenticated])  
+
   const onSubmit = e => {
       e.preventDefault();
-      console.log('Login submit', user)
+      if (email === "" || password === "")  {
+          console.log("Please enter all fields")
+          setAlert("Please enter all fields", 'danger')
+      } else {
+        console.log('Submit login', user);
+        login({
+            email,
+            password
+        })
+      }
+
   }
 
   return (

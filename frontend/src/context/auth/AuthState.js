@@ -91,12 +91,34 @@ const register = async (formData) => {
         })
         
     }
-
 }
 
 // Login User
-const login = () => {
-    console.log("Inside login")
+const login = async (formData) => {
+    const config = {
+        headers: {
+            'Content-Type':'application/json'
+        }
+    }
+
+    try {
+        const res = await axios.post(REACT_APP_BACKEND_URL + '/api/auth', formData, config);
+        dispatch({
+            type: LOGIN_SUCCESS,
+            payload: res.data
+        })
+        console.log("writing local storage token in Register()", res.data.token)
+        localStorage.setItem('intro-mern-address-book-token',res.data.token);
+        loadUser();
+    } catch (error) {
+        console.log("login failed")
+        console.log(error.response.data.msg)
+        dispatch({
+            type: LOGIN_FAIL,
+            payload: error.response.data.msg
+        })
+        
+    }
 }    
     
 // Logout 
