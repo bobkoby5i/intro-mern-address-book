@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import axios from "axios"
 import AuthContext from './authContext';
 import AuthReducer from './authReducer';
@@ -26,6 +26,11 @@ const AuthState = props => {
     }
     const [state, dispatch] = useReducer(AuthReducer, initialState);
 
+
+    useEffect(()=>{
+        loadUser()
+    }, [])  
+
 // Load User
 const loadUser = async () => {
     console.log("Inside Load User");
@@ -35,7 +40,9 @@ const loadUser = async () => {
         setAuthToken(localStorage["intro-mern-address-book-token"])
     } else {
         console.log("No token found in localStorage -> Register or Login first.")
-        return 
+        dispatch({
+            type: LOGOUT, 
+        })
     }
 
     try {

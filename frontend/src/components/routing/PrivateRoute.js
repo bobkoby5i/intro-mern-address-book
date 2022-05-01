@@ -10,12 +10,12 @@ const PrivateRoute = ({component: Component, props}) => {
     const { isAuthenticated, loading} = authContext;
 
     // const nieLogged =  (!isAthenticated && !loading) 
-    if (!isAuthenticated && !loading) {
-      console.log("return Navigate to lofin")
-      return <Navigate to='/login' />
-    } else {
-      console.log("show HOme")
+    if (isAuthenticated)  {
+      console.log("show Home")
       return <Component {...props}/>
+    } else {
+      console.log("return Navigate to login page")
+      return <Navigate to='/login' />
     }
 
   // return (
