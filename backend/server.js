@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const connectDB = require('./config/db');
 const PORT = process.env.PORT || 5000;
-const VERSION="1.1.0";
+const VERSION="1.2.0";
 
 // Connect Databse
 connectDB();

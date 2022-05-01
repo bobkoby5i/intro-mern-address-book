@@ -10,12 +10,18 @@ const JWT_SECRET = process.env.MERN_ADDRESS_BOOK_JWT_SECRET || config.get("JWT_S
 const JWT_EXPIRE = config.get("JWT_EXPIRE");
 const verifyTokenJWT = require('../middleware/auth-verifytoken')
 
+// read ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com/','https://koby5i-mern-address-book.herokuapp.com/'] from:
+// ./config/default.json
+// ./config/production.json
+const CORS_ORIGIN = config.get("CORS_ORIGIN");
+console.log("/auth CORS:", CORS_ORIGIN);
 
-let corsOptions = {
-    origin: ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com','https://koby5i-mern-address-book.herokuapp.com'],
+  let corsOptions = {
+    //origin: ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com/','https://koby5i-mern-address-book.herokuapp.com/'],
+    origin: CORS_ORIGIN,
+    methods: "POST,GET",
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
-
   
 
 router.get("/hello", cors(corsOptions), async (req, res) => {
@@ -23,7 +29,7 @@ router.get("/hello", cors(corsOptions), async (req, res) => {
     res.json({msg: 'Welcome to address book API /api/auth/hello'})        
 });
 
-
+// @function het user data
 // @route    GET api/auth
 // @desc     Get logged in user
 // @access   Private
@@ -41,6 +47,8 @@ router.get("/", cors(corsOptions), verifyTokenJWT, async (req, res) => {
     }
 });
 
+
+// @Function login
 // @route    POST api/auth
 // @desc     Auth user and get token
 // @access   Public

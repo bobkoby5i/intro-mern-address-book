@@ -1,5 +1,7 @@
 {
     "MONGO_URI": "mongodb://localhost:27017/intro-address-book-db",
     "JWT_SECRET": "44b2a789034e6c8df9d10f35a88cc8fc",
-    "JWT_EXPIRE": 3600
+    "JWT_EXPIRE": 3600,
+    "CORS_ORIGIN_ARR": ["http://localhost:3001", "https://koby5i-mern-address-book-fe.herokuapp.com","https://koby5i-mern-address-book.herokuapp.com"],
+    "CORS_ORIGIN": "http://localhost:3000"
 }

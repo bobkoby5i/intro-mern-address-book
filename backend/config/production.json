@@ -1,5 +1,8 @@
 {
     "MONGO_URI": "mongodb+srv://<user>:<password>@<host>/intro-address-book-db?retryWrites=true&w=majority",
     "JWT_SECRET": "<secret>",
-    "JWT_EXPIRE": 3600
+    "JWT_EXPIRE": 3600,
+    "CORS_ORIGIN_ARR": ["https://koby5i-mern-address-book-fe.herokuapp.com","https://koby5i-mern-address-book.herokuapp.com"],
+    "CORS_ORIGIN": "https://koby5i-mern-address-book-fe.herokuapp.com"
+
 }
