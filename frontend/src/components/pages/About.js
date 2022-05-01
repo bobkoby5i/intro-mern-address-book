@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 
 const REACT_APP_WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 console.log("API_KEY1:",REACT_APP_WEATHER_API_KEY)
-const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+const REACT_APP_BACKEND_URL   = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+const REACT_APP_FRONTEND_VER  = process.env.REACT_APP_FRONTEND_VER;
 
 
 const About = () => {
@@ -48,7 +49,7 @@ const About = () => {
              <strong>REACT_APP_BACKEND_URL API: </strong> {REACT_APP_BACKEND_URL} 
          </p>         
          <p className="bk-dark p">
-             <strong>Front-end ver. : </strong> 1.0.0
+             <strong>Front-end ver. : </strong> {REACT_APP_FRONTEND_VER}
          </p>
          <p className="bk-dark p">
              <strong>Back-end ver. : </strong> {backEndVersion.ver}
