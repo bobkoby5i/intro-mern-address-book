@@ -1,9 +1,9 @@
-import React, {useState, useContext, useEffect, useRef } from "react";
+import React, {useContext, useEffect, useRef } from "react";
 import ContactContext from '../../context/contact/contactContext';
 
 const ContactFilterForm = () => {
     const contactContext = useContext(ContactContext);
-    const { contacts, filterContacts, clearFilter, filtered } = contactContext;
+    const { filterContacts, clearFilter, filtered } = contactContext;
     // const [searchText, setSearchText] = useState(null);
     const text = useRef('');
 

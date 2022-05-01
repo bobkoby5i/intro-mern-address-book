@@ -16,17 +16,17 @@ const Contacts = () => {
     }
 
 
-    let displayed_contacts = [];
+    // let displayed_contacts = [];
 
-    if (filtered !== null) {
-        displayed_contacts = filtered.map((contact,index) => (
-            <ContactItem key={contact.id} contact={contact}></ContactItem>
-        ))
-    } else {
-        displayed_contacts = contacts.map((contact,index) => (
-            <ContactItem key={contact.id} contact={contact}></ContactItem>
-        ))
-    }
+    // if (filtered !== null) {
+    //     displayed_contacts = filtered.map((contact,index) => (
+    //         <ContactItem key={contact.id} contact={contact}></ContactItem>
+    //     ))
+    // } else {
+    //     displayed_contacts = contacts.map((contact,index) => (
+    //         <ContactItem key={contact.id} contact={contact}></ContactItem>
+    //     ))
+    // }
 
     return (
         <Fragment>

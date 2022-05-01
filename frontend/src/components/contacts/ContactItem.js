@@ -9,13 +9,13 @@ const ContactItem= ({contact}) => {
     const {id, name, email, phone, type} = contact;
 
     const onDelete = () =>  {
-        contactContext.deleteContact(id);      
+        deleteContact(id);      
         clearCurrent();  
     }
 
     const onEdit = () =>  {
         console.log("inside onEdit")
-        contactContext.setCurrent(contact);        
+        setCurrent(contact);        
     }
 
     return (
