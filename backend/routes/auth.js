@@ -23,6 +23,7 @@ console.log("/auth CORS:", CORS_ORIGIN);
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
   
+router.options("/", cors(corsOptions)) //// enable pre-flight request for POST   
 
 router.get("/hello", cors(corsOptions), async (req, res) => {
     console.log("GET /api/auth/hello in auth.js")
