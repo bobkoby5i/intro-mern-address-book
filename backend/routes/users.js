@@ -49,9 +49,9 @@ router.post("/", cors(corsOptions), [
             return res.status(400).json({errors: errors.array()})
         }
         console.log("POST /api/users in users.js")
-        console.log(req.body)
+        //console.log(req.body)
         const {name, email, password} = req.body;
-        console.log(`name: ${name}  email: ${email} password: ****`)
+        console.log(`Received {name: ${name}  email: ${email} password: ****}`)
         try {
             let user = await User.findOne({email}); // {email: email}
             if (user) {

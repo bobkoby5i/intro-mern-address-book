@@ -30,12 +30,37 @@ router.get("/hello", cors(corsOptions), async (req, res) => {
     res.json({msg: 'Welcome to address book API /api/auth/hello'})        
 });
 
+
+
+// @function het user data
+// @route    GET /api/auth/id
+// @desc     Get logged in user
+// @access   Private
+router.get("/:id", cors(corsOptions), verifyTokenJWT, async (req, res) => {
+    const user_id = req.params.id
+    console.log(`GET /api/auth/${user_id}. JWT id: ${req.user.id}`)
+    if (user_id!==req.user.id) {
+        return res.status(401).json({msg: `User ${req.user.id} not authorised to fetch ${user_id} MongoDB.` })
+    }
+    try {
+        const user = await User.findById(req.user.id).select('-password'); 
+        if (!user) {
+            return res.status(400).json({msg: `User ${req.user.id} not found in MongoDB.`})
+        }
+        res.status(200).json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error.");              
+    }
+});
+
+
 // @function het user data
 // @route    GET api/auth
 // @desc     Get logged in user
 // @access   Private
 router.get("/", cors(corsOptions), verifyTokenJWT, async (req, res) => {
-    console.log("GET /api/auth in auth.js")
+    console.log("GET /api/auth in auth.js", req.user.id)
     try {
         const user = await User.findById(req.user.id).select('-password'); 
         if (!user) {
@@ -59,7 +84,7 @@ router.post("/", cors(corsOptions), [
     ], 
     async (req, res) => {
         console.log("POST /api/auth in auth.js")
-        console.log(req.body);
+        //console.log(req.body);
 
         // validate params or exist
         const errors = validationResult(req);
@@ -67,7 +92,7 @@ router.post("/", cors(corsOptions), [
             return res.status(400).json({errors: errors.array()})
         }        
         const {email, password} = req.body;
-        console.log(`email: ${email} password: ****`)
+        console.log(`Received {email: ${email} password: ****}`)
 
         try {
             let user = await User.findOne({email}); // {email: email}
