@@ -12,6 +12,7 @@ import ContactState from './context/contact/ContactState';
 import AuthState from './context/auth/AuthState';
 import AlertState from './context/alert/AlertState';
 import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 import './App.css';
 
@@ -32,16 +33,17 @@ if (localStorage["intro-mern-address-book-token"]) {
         <AlertState>
           <Router>
             <Fragment>
-            <Navbar/>
-            <div className="container">
-              <Alerts/>
-              <Routes>
-                <Route path='/' element={<Home/>} />
-                <Route exact path='/about' element={<About/>} />
-                <Route exact path='/register' element={<Register/>} />
-                <Route exact path='/login' element={<Login/>} />
-              </Routes>
-            </div>
+              <Navbar></Navbar>
+              <div className="container">
+                <Alerts/>
+                <Routes>
+                  <Route exact path='/' element={<PrivateRoute component={Home}/>}></Route>
+                  <Route exact path='/contacts' element={<PrivateRoute component={Home}/>}></Route>
+                  <Route exact path='/about' element={<About/>} />
+                  <Route exact path='/register' element={<Register/>} />
+                  <Route exact path='/login' element={<Login/>} />
+                </Routes>
+              </div>
             </Fragment>
           </Router>
         </AlertState>

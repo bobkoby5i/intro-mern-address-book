@@ -19,7 +19,6 @@ const fn = (state,action) => {
                 loading: false,
                 user: action.payload
             }
-
         case LOGIN_SUCCESS:
             console.log("writing local storage token in Reducer LOGIN_SUCCESS", action.payload.token)
             localStorage.setItem('intro-mern-address-book-token',action.payload.token);
@@ -29,6 +28,16 @@ const fn = (state,action) => {
                 isAuthenticated: true,
                 loading:false
             }
+        case LOGOUT:
+            localStorage.removeItem('intro-mern-address-book-token');
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                loading: false,
+                user:null,
+                error: null
+            }               
         case LOGIN_FAIL:
             localStorage.removeItem('intro-mern-address-book-token');
             return {

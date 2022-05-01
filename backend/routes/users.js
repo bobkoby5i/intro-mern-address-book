@@ -41,7 +41,7 @@ router.options("/", cors(corsOptions)) //// enable pre-flight request for POST
 router.post("/", cors(corsOptions), [
         check('name', 'Please enter name.').not().isEmpty(),
         check('email', 'Please include a valid email').isEmail(),
-        check('password', 'Password must be  6 or more characters').isLength({min:6}),
+        check('password', 'Password must be 3 or more characters').isLength({min:3}),
     ], 
     async (req, res) => {
         const errors = validationResult(req);

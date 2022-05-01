@@ -124,6 +124,9 @@ const login = async (formData) => {
 // Logout 
 const logout = () => {
     console.log("Inside logout")
+    dispatch({
+        type:LOGOUT,
+    })
 }    
 
 // Clear Errors
