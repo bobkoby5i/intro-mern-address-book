@@ -7,7 +7,8 @@ const Navbar = ({title, icon}) => {
     const authContext = useContext(AuthContext);
     const { isAuthenticated,  logout, user } = authContext;
 
-    const onLogout =  () => {
+    const onLogout =  (e) => {
+        e.preventDefault();
         logout();
     }
 
