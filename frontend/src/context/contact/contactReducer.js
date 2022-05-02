@@ -6,7 +6,8 @@ import {
     CONTACT_CURRENT_CLEAR, 
     FILTER_CONTACTS,
     FILTER_CLEAR,
-    ADD_ERROR,
+    CONTACTS_ERROR,
+    CONTACTS_GET
 } from'../types';
 
 const fn = (state,action) => {
@@ -14,8 +15,15 @@ const fn = (state,action) => {
         case CONTACT_ADD:
             return {
                 ...state,
-                contacts: [...state.contacts, action.payload]
-            }
+                contacts: [...state.contacts, action.payload],
+                loading: false
+        }
+        case CONTACTS_GET:
+            return {
+                ...state,
+                contacts: action.payload,
+                loading: false
+            }            
         case CONTACT_UPDATE:
             console.log("inside contactReducer update", action.payload)
             
@@ -25,12 +33,14 @@ const fn = (state,action) => {
                 // ponizej troche sprytniej i nie zmienia kolejnosci
                 contacts: state.contacts.map((contact,index) => {
                     return contact._id === action.payload._id ?  action.payload : contact
-                })
+                }),
+                loading: false
             }
         case CONTACT_DELETE:
             return {
                 ...state,
-                contacts: state.contacts.filter((contact) => contact._id!==action.payload )
+                contacts: state.contacts.filter((contact) => contact._id!==action.payload ),
+                loading: false
             }
         case CONTACT_CURRENT_SET:
             console.log("inside contactReducer", action.payload)
@@ -58,8 +68,8 @@ const fn = (state,action) => {
                 ...state,
                 filtered: null
             }
-        case ADD_ERROR:
-            console.log("contactReducer: ADD_ERROR ", action.payload)
+        case CONTACTS_ERROR:
+            console.log("contactReducer: CONTACTS_ERROR ", action.payload)
             return {
                 ...state,
                 error: action.payload

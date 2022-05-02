@@ -23,6 +23,7 @@ server.get('/hello', function(req, res){
  
 server.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build/index.html'));           // works
+    //res.sendFile(path.resolve(__dirname, 'build', 'index.html'));           // example
     //res.sendFile(path.join(__dirname, 'dist/bike-ui/index.html')); // does not work
     //res.sendFile('index.html', {root: './dist/bike-ui'});          // does not work
   });

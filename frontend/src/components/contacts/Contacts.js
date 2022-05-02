@@ -1,15 +1,26 @@
-import React, { Fragment, useContext} from "react";
+import React, { Fragment, useContext, useEffect} from "react";
 import ContactContext from "../../context/contact/contactContext";
 import ContactItem from "./ContactItem"
+import Spinner from "../layout/Spinner";
+
+
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const Contacts = () => {
     const contactContext = useContext(ContactContext);
     console.log(contactContext);
-    const { contacts, filtered } = contactContext;
+    const { contacts, filtered, getContacts, loading, addContactArrOnly } = contactContext;
     console.log(contacts);
 
     console.log(contacts.length ," contacts")
+
+  
+
+    useEffect(()=>{
+        getContacts();
+
+        // eslint-disable-next-line
+    }, [])
 
     if (contacts.length === 0) {
         return (<h4 className="text-primary">Please and a contact</h4>)
@@ -31,7 +42,8 @@ const Contacts = () => {
     return (
         <Fragment>
             <h2 className="text-primary">Contacts</h2>
-            <TransitionGroup>
+            {contacts !== null && !loading ? (
+                <TransitionGroup>
                 {filtered !== null
                     ? filtered.map((contact,index) => (
                     <CSSTransition key={contact._id} timeout={500} classNames="item">
@@ -45,6 +57,9 @@ const Contacts = () => {
                     ))
                 }
             </TransitionGroup>
+            ) : <Spinner />} 
+            
+
         </Fragment>
     )
 }

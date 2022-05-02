@@ -12,11 +12,44 @@ import {
     CONTACT_CURRENT_CLEAR, 
     FILTER_CONTACTS,
     FILTER_CLEAR,
-    ADD_ERROR,
+    CONTACT_ADD_ERROR,
+    CONTACTS_CLEAR,
+    CONTACTS_GET,
+    CONTACTS_ERROR
 } from'../types';
 
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
 
+const config_headers = {
+    headers: {
+        'Content-Type':'application/json'
+    }
+}
+
+
+const guestContacts = [
+    {
+        "_id": 1,
+        "name": "bob",
+        "email": "bob@gmail.com",
+        "phone": "111-111-111",                    
+        "type": "professional",
+    },
+    {
+        "_id": 2,
+        "name": "tom",
+        "email": "tom@gmail.com",
+        "phone": "222-222-111",
+        "type": "personal",
+    },
+    {
+        "_id": 3,
+        "name": "alice",
+        "email": "alice@gmail.com",
+        "phone": "333-333-111",
+        "type": "personal",
+    }
+];  
 
 
 const ContactState = props => {
@@ -25,27 +58,6 @@ const ContactState = props => {
 
     const initialState = {
         contacts: [
-                {
-                    "_id": 1,
-                    "name": "bob1",
-                    "email": "bob@gmail.com",
-                    "phone": "111-111-111",                    
-                    "type": "professional",
-                },
-                {
-                    "_id": 2,
-                    "name": "tom",
-                    "email": "tom@gmail.com",
-                    "phone": "222-222-111",
-                    "type": "personal",
-                },
-                {
-                    "_id": 3,
-                    "name": "alice",
-                    "email": "alice@gmail.com",
-                    "phone": "333-333-111",
-                    "type": "personal",
-                }
         ],
         current: null,
         filtered: null,
@@ -55,30 +67,43 @@ const ContactState = props => {
 
     // Contact Add 
     const addContact = async (contact) => {
-        const config = {
-            headers: {
-                'Content-Type':'application/json'
-            }
-        }
-
         // contact.id = uuidv4();
         console.log("ADD CONTACT()", contact);
 
         try {
             // add token to request call BE get user data. 
-            const res = await axios.post(REACT_APP_BACKEND_URL + '/api/contacts', contact, config);
+            const res = await axios.post(REACT_APP_BACKEND_URL + '/api/contacts', contact, config_headers);
             dispatch({type: CONTACT_ADD, payload: res.data });
         } catch (error) {
             console.log("POST /api/contacts error")
             //setAlert(error, 'danger')   
             //console.log(error.response.data.msg)
             dispatch({
-                type: ADD_ERROR,
+                type: CONTACTS_ERROR,
                 //payload: "POST /api/contacts error"
                 payload: error.response.msg
             })        
         }
     }
+
+    // Get Contacts
+    const getContacts = async () => {
+        console.log("GET CONTACTS():");
+
+        try {
+            const res = await axios.get(REACT_APP_BACKEND_URL + '/api/contacts1');
+            dispatch({type: CONTACTS_GET, payload: [...res.data, ...guestContacts] });
+        } catch (error) {
+            console.log("GET /api/contacts error")
+            //dispatch({type: CONTACTS_GET, payload: [...guestContacts] });    
+            dispatch({
+                type: CONTACTS_ERROR,
+                payload: "POST /api/contacts error"
+                //payload: error.response.msg??"ERROR"
+            })    
+        }        
+    }    
+
 
     // Contact Delete  
     const deleteContact = id => {
@@ -113,6 +138,12 @@ const ContactState = props => {
         dispatch({ type:FILTER_CLEAR });
     }    
 
+
+    // populate SampleData 
+    const addContactArrOnly = (contact) => {
+        dispatch({type: CONTACT_ADD, payload: contact });
+    }
+
     return (
         <ContactContext.Provider 
             value={{
@@ -126,7 +157,9 @@ const ContactState = props => {
                 clearCurrent,
                 updateContact,
                 filterContacts,
-                clearFilter
+                clearFilter,
+                getContacts, 
+                addContactArrOnly
             }}>
             { props.children }
         </ContactContext.Provider>

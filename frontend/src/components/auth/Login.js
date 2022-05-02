@@ -14,8 +14,8 @@ const Login = () => {
     const {login, error, clearErrors, isAuthenticated } = authContext;
 
   const   [user, setUser ] = useState({
-      email: '', 
-      password:'',
+      email: 'guest@gmail.com', 
+      password:'12345',
   })
 
   const {email, password} = user;
