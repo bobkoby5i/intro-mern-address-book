@@ -1,20 +1,34 @@
 const express = require('express');
+const cors = require('cors')
 const router = express.Router();
 const {check, validationResult } = require('express-validator');
 const verifyTokenJWT = require('../middleware/auth-verifytoken');
+const config = require('config'); // for ./config/default.json
 const Contact = require('../models/Contact');
 const User    = require('../models/User');
+
 
 router.get("/hello", async (req, res) => {
     console.log("GET /api/contacs/hello in contacs.js")
     res.json({msg: 'Welcome to address book API /api/contacs/hello'})        
 });
 
+const CORS_ORIGIN = config.get("CORS_ORIGIN");
+console.log("/contacts CORS:", CORS_ORIGIN);
+
+let corsOptions = {
+    origin: CORS_ORIGIN,
+    methods: "POST,GET,PUT,DELETE",
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
+
+router.options("/", cors(corsOptions)) //// enable pre-flight request for POST   
 
 // @route    GET api/contacts
 // @desc     Get all users conatcs 
 // @access   Private
-router.get("/", verifyTokenJWT, async (req, res) => {
+router.get("/", cors(corsOptions), verifyTokenJWT, async (req, res) => {
     console.log("GET /api/contacts in contacs.js");
 
     try {
@@ -32,7 +46,7 @@ router.get("/", verifyTokenJWT, async (req, res) => {
 // @route    POST api/contacts
 // @desc     Add new contact
 // @access   Private
-router.post("/", [verifyTokenJWT, [
+router.post("/", cors(corsOptions), [verifyTokenJWT, [
         check('name', 'Name is required').not().isEmpty(),
         check('email', 'Please include a valid email').isEmail(),
     ]], 
@@ -41,7 +55,7 @@ router.post("/", [verifyTokenJWT, [
         if (!errors.isEmpty()){
             return res.status(400).json({errors: errors.array()})
         }        
-        console.log("GET /api/contacts in contacs.js")
+        console.log("POST /api/contacts in contacs.js", req.body)
         const {name, email, phone, type} = req.body;
         try {
             const contact = new Contact({
@@ -65,7 +79,7 @@ router.post("/", [verifyTokenJWT, [
 // @route    PUT api/contacts/{id}
 // @desc     Update existing contact
 // @access   Private
-router.put("/:id", verifyTokenJWT,  
+router.put("/:id", cors(corsOptions), verifyTokenJWT,  
     async (req, res) => {
     console.log("contacs.js: PUT /api/contacts/"+req.params.id);
 
@@ -93,7 +107,7 @@ router.put("/:id", verifyTokenJWT,
 // @route    DELETE api/contacts/{id}
 // @desc     DELETE exising contact
 // @access   Private
-router.delete("/:id", verifyTokenJWT, async (req, res) => {
+router.delete("/:id",cors(corsOptions), verifyTokenJWT, async (req, res) => {
     console.log("contacts.js: DELETE /api/contacts")
 
     try {

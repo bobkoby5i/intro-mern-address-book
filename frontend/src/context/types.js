@@ -8,6 +8,8 @@ export const FILTER_CLEAR          = 'FILTER_CLEAR';
 export const ALERT_SET             = 'ALERT_SET';
 export const ALERT_REMOVE          = 'ALERT_REMOVE';
 
+export const ADD_ERROR             = 'ADD_ERROR';
+
 
 export const REGISTER_SUCCESS      = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL         = 'REGISTER_FAIL';

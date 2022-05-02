@@ -1,7 +1,9 @@
 import React, { useReducer } from "react";
+import axios from "axios"
 import { v4 as uuidv4 } from 'uuid';
 import ContactContext from './contactContext';
 import ContactReducer from './contactReducer';
+import AlertContext from '../../context/alert/alertContext';
 import {
     CONTACT_ADD,
     CONTACT_DELETE,
@@ -10,28 +12,35 @@ import {
     CONTACT_CURRENT_CLEAR, 
     FILTER_CONTACTS,
     FILTER_CLEAR,
+    ADD_ERROR,
 } from'../types';
+
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
+
 
 
 const ContactState = props => {
+    // const alertContext = useContext(AlertContext)
+    // const {setAlert } = alertContext;
+
     const initialState = {
         contacts: [
                 {
-                    "id": 1,
+                    "_id": 1,
                     "name": "bob1",
                     "email": "bob@gmail.com",
                     "phone": "111-111-111",                    
                     "type": "professional",
                 },
                 {
-                    "id": 2,
+                    "_id": 2,
                     "name": "tom",
                     "email": "tom@gmail.com",
                     "phone": "222-222-111",
                     "type": "personal",
                 },
                 {
-                    "id": 3,
+                    "_id": 3,
                     "name": "alice",
                     "email": "alice@gmail.com",
                     "phone": "333-333-111",
@@ -39,15 +48,36 @@ const ContactState = props => {
                 }
         ],
         current: null,
-        filtered: null
+        filtered: null,
+        error: null
     }
     const [state, dispatch] = useReducer(ContactReducer, initialState);
 
     // Contact Add 
-    const addContact = contact => {
-        contact.id = uuidv4();
+    const addContact = async (contact) => {
+        const config = {
+            headers: {
+                'Content-Type':'application/json'
+            }
+        }
+
+        // contact.id = uuidv4();
         console.log("ADD CONTACT()", contact);
-        dispatch({type: CONTACT_ADD, payload:contact });
+
+        try {
+            // add token to request call BE get user data. 
+            const res = await axios.post(REACT_APP_BACKEND_URL + '/api/contacts', contact, config);
+            dispatch({type: CONTACT_ADD, payload: res.data });
+        } catch (error) {
+            console.log("POST /api/contacts error")
+            //setAlert(error, 'danger')   
+            //console.log(error.response.data.msg)
+            dispatch({
+                type: ADD_ERROR,
+                //payload: "POST /api/contacts error"
+                payload: error.response.msg
+            })        
+        }
     }
 
     // Contact Delete  
@@ -89,6 +119,7 @@ const ContactState = props => {
                 contacts: state.contacts,
                 current: state.current,
                 filtered: state.filtered,
+                error: state.error,
                 addContact, 
                 deleteContact,
                 setCurrent,
