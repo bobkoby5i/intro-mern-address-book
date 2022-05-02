@@ -29,6 +29,7 @@ const Login = () => {
     if (isAuthenticated) {
         console.log("isAuthenticated:",isAuthenticated)
         navigate('/');
+        //setAlert("User logged in", 'success')   
     }
     if (error !== null) {
       console.log("error:",error)

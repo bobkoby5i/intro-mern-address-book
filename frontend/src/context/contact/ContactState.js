@@ -95,14 +95,21 @@ const ContactState = props => {
             // add token to request call BE get user data. 
             const res = await axios.post(REACT_APP_BACKEND_URL + '/api/contacts', contact, config_headers);
             dispatch({type: CONTACT_ADD, payload: res.data });
+            return res;
         } catch (error) {
             console.log("POST /api/contacts error")
-            //setAlert(error, 'danger')   
-            //console.log(error.response.data.msg)
+
+            let message = typeof error.response !== "undefined" ? error.response.data.msg : error.message;
+            console.log(error)
+            console.log(message)
+            if (error.response.status!==201) { 
+                message = "user not created. error."
+            }
+
             dispatch({
                 type: CONTACTS_ERROR,
                 //payload: "POST /api/contacts error"
-                payload: error.response.msg
+                payload: message
             })        
         }
     }
@@ -166,8 +173,25 @@ const ContactState = props => {
     }
 
     // Update Contact 
-    const updateContact = (contact) => {
-        dispatch({ type:CONTACT_UPDATE, payload:contact });
+    const updateContact = async (contact) => {
+        
+
+        try {
+            // add token to request call BE get user data. 
+            const res = await axios.put(`${REACT_APP_BACKEND_URL}/api/contacts/${contact._id}` , contact, config_headers);
+            dispatch({ type:CONTACT_UPDATE, payload:res.data });
+        } catch (error) {
+            console.log("PUT /api/contacts error")
+            //setAlert(error, 'danger')   
+            //console.log(error.response.data.msg)
+            dispatch({
+                type: CONTACTS_ERROR,
+                //payload: "POST /api/contacts error"
+                payload: error.response.msg
+            })        
+        }        
+
+
     }    
 
     // Filter Contact

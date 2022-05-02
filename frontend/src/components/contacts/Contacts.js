@@ -21,6 +21,7 @@ const Contacts = () => {
 
     useEffect(()=>{
         getContacts();
+        //setAlert("Contacst Loaded", 'success')   
 
         // eslint-disable-next-line
     }, [])

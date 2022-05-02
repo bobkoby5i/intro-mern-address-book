@@ -1,9 +1,13 @@
 import React, {useState, useContext, useEffect } from "react";
 import ContactContext from '../../context/contact/contactContext';
+import AlertContext from '../../context/alert/alertContext';
 
 const ContactForm = () => {
     const contactContext = useContext(ContactContext);
     const { deleteContact, setCurrent, clearCurrent,addContact, updateContact, current } = contactContext;
+    const alertContext = useContext(AlertContext);
+    const {setAlert } = alertContext;
+
     const [contact, setContact] = useState({
         name: '',
         email: '',
@@ -34,10 +38,16 @@ const ContactForm = () => {
     },[contactContext, current ]);       
 
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         if (current === null){
-            addContact(contact);    
+            let res = await addContact(contact);
+            console.log("result",res)    
+            if (res !== undefined) {
+                let data = res.data
+                console.log(data)
+                setAlert(`Contact added. id: ${data._id} email:${data.email}`, 'success')   
+            }
         } else {
             updateContact(contact);
             //clearCurrent(); // maybe not needed? 
