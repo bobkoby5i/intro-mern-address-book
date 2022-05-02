@@ -24,6 +24,7 @@ let corsOptions = {
 
 
 router.options("/", cors(corsOptions)) //// enable pre-flight request for POST   
+router.options("/*", cors(corsOptions)) //// enable pre-flight request for POST   
 
 // @route    GET api/contacts
 // @desc     Get all users conatcs 
@@ -115,6 +116,13 @@ router.delete("/:id",cors(corsOptions), verifyTokenJWT, async (req, res) => {
         if (!contact) return res.status(404).json({msg:"Contact not found."});
         if (contact.user.toString() !== req.user.id) {
             return res.status(401).json({msg:"Not authorized to delete contact."});
+        }
+        console.log(contact)
+        console.log(contact.user)
+        console.log(contact.email)
+        console.log(contact.readOnly)
+        if (contact.readOnly) {
+            return res.status(409).json({msg:"This contact can not be deleted."});
         }
 
         //await Contact.deleteOne({ _id: req.params.id });

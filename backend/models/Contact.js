@@ -24,6 +24,9 @@ const ContactSchema = mongoose.Schema({
         type: Date, 
         default: Date.now
     },
+    readOnly: {
+        type: Boolean, 
+    },
 }, { collection: 'contacts' });
 
 

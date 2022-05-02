@@ -12,7 +12,7 @@ const Contacts = () => {
     const { contacts, filtered, getContacts, loading, addContactArrOnly } = contactContext;
     console.log(contacts);
 
-    console.log(contacts.length ," contacts")
+    console.log(contacts?.length ," contacts")
 
   
 
@@ -22,10 +22,11 @@ const Contacts = () => {
         // eslint-disable-next-line
     }, [])
 
-    if (contacts.length === 0) {
-        return (<h4 className="text-primary">Please and a contact</h4>)
+    if (contacts !== null) {
+        if (contacts.length === 0) {
+            return (<h4 className="text-primary">Please and a contact</h4>)
+        }
     }
-
 
     // let displayed_contacts = [];
 

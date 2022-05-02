@@ -12,10 +12,9 @@ import {
     CONTACT_CURRENT_CLEAR, 
     FILTER_CONTACTS,
     FILTER_CLEAR,
-    CONTACT_ADD_ERROR,
     CONTACTS_CLEAR,
     CONTACTS_GET,
-    CONTACTS_ERROR
+    CONTACTS_ERROR,
 } from'../types';
 
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
@@ -58,7 +57,28 @@ const ContactState = props => {
 
     const initialState = {
         contacts: [
-        ],
+            {
+                "_id": 1,
+                "name": "bob",
+                "email": "bob@gmail.com",
+                "phone": "111-111-111",                    
+                "type": "professional",
+            },
+            {
+                "_id": 2,
+                "name": "tom",
+                "email": "tom@gmail.com",
+                "phone": "222-222-111",
+                "type": "personal",
+            },
+            {
+                "_id": 3,
+                "name": "alice",
+                "email": "alice@gmail.com",
+                "phone": "333-333-111",
+                "type": "personal",
+            }
+        ],  
         current: null,
         filtered: null,
         error: null
@@ -91,14 +111,14 @@ const ContactState = props => {
         console.log("GET CONTACTS():");
 
         try {
-            const res = await axios.get(REACT_APP_BACKEND_URL + '/api/contacts1');
-            dispatch({type: CONTACTS_GET, payload: [...res.data, ...guestContacts] });
+            const res = await axios.get(REACT_APP_BACKEND_URL + '/api/contacts');
+            dispatch({type: CONTACTS_GET, payload: [...res.data] });
         } catch (error) {
             console.log("GET /api/contacts error")
             //dispatch({type: CONTACTS_GET, payload: [...guestContacts] });    
             dispatch({
                 type: CONTACTS_ERROR,
-                payload: "POST /api/contacts error"
+                payload: "GET /api/contacts error"
                 //payload: error.response.msg??"ERROR"
             })    
         }        
@@ -106,9 +126,28 @@ const ContactState = props => {
 
 
     // Contact Delete  
-    const deleteContact = id => {
+    const deleteContact = async (id) => {
         console.log("DELETE CONTACT():", id);
-        dispatch({type: CONTACT_DELETE, payload:id });
+
+        try {
+            await axios.delete(REACT_APP_BACKEND_URL + '/api/contacts/' + id);
+            dispatch({type: CONTACT_DELETE, payload:id });
+        } catch (error) {
+            console.log("DELETE /api/contacts error")
+            let message = typeof error.response !== "undefined" ? error.response.data.msg : error.message;
+            console.log(error)
+            console.log(message)
+            if (error.response.status===409) dispatch({type: CONTACT_DELETE, payload:id });
+            //dispatch({type: CONTACTS_GET, payload: [...guestContacts] });    
+            dispatch({
+                type: CONTACTS_ERROR,
+                payload: message
+                //payload: error.response.msg??"ERROR"
+            })    
+        }   
+
+
+        
     }    
 
     // Set Current Contact
@@ -138,6 +177,11 @@ const ContactState = props => {
         dispatch({ type:FILTER_CLEAR });
     }    
 
+    
+    // Clear Filter
+    const clearContacts = () => {
+        dispatch({ type:CONTACTS_CLEAR });
+    }    
 
     // populate SampleData 
     const addContactArrOnly = (contact) => {
@@ -159,7 +203,8 @@ const ContactState = props => {
                 filterContacts,
                 clearFilter,
                 getContacts, 
-                addContactArrOnly
+                addContactArrOnly,
+                clearContacts
             }}>
             { props.children }
         </ContactContext.Provider>

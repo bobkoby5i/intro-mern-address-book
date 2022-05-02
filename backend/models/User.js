@@ -17,7 +17,7 @@ const UserSchema = mongoose.Schema({
     registerDate: {
         type: Date, 
         default: Date.now
-    },
+    }
 }, { collection: 'users' });
 
 
