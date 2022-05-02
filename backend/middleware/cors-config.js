@@ -42,7 +42,7 @@ const corsPreFlightOptionsContacts = (req, res, next) => {
     const origin = MY_CORS.origin.includes(req.header('origin')?.toLowerCase()) ? req.headers.origin : MY_CORS.default;
     res.header("Access-Control-Allow-Origin", origin);
     res.header("Access-Control-Allow-Methods", "POST,GET,PUT,DELETE");
-    res.header("Access-Control-Allow-Headers", "authorization");
+    res.header("Access-Control-Allow-Headers", "authorization, content-type");
     next();
 }  
 
