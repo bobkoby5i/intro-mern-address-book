@@ -1,5 +1,6 @@
 import React, { Fragment, useContext, useEffect} from "react";
 import ContactContext from "../../context/contact/contactContext";
+import AlertContext from '../../context/alert/alertContext';
 import ContactItem from "./ContactItem"
 import Spinner from "../layout/Spinner";
 
@@ -8,10 +9,12 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const Contacts = () => {
     const contactContext = useContext(ContactContext);
-    console.log(contactContext);
-    const { contacts, filtered, getContacts, loading, addContactArrOnly } = contactContext;
-    console.log(contacts);
+    const { error, contacts, filtered, getContacts, loading, addContactArrOnly, clearErrors } = contactContext;
+    const alertContext = useContext(AlertContext);
+    const {setAlert } = alertContext;
 
+
+    console.log(contacts);
     console.log(contacts?.length ," contacts")
 
   
@@ -21,6 +24,18 @@ const Contacts = () => {
 
         // eslint-disable-next-line
     }, [])
+
+    useEffect(()=>{
+        if (error !== null) {
+            console.log("error:",error)
+            setAlert(error, 'danger')   
+            clearErrors();     
+          }
+        // eslint-disable-next-line
+    }, [error])
+
+
+
 
     if (contacts !== null) {
         if (contacts.length === 0) {

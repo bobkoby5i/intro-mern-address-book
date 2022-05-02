@@ -8,11 +8,17 @@ import {
     FILTER_CLEAR,
     CONTACTS_ERROR,
     CONTACTS_GET,
-    CONTACTS_CLEAR
+    CONTACTS_CLEAR,
+    CLEAR_ERRORS
 } from'../types';
 
 const fn = (state,action) => {
     switch(action.type) {
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+        }                
         case CONTACTS_CLEAR:
             return {
                 ...state,

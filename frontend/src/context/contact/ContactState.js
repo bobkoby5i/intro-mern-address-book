@@ -15,6 +15,7 @@ import {
     CONTACTS_CLEAR,
     CONTACTS_GET,
     CONTACTS_ERROR,
+    CLEAR_ERRORS,
 } from'../types';
 
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000';
@@ -137,7 +138,10 @@ const ContactState = props => {
             let message = typeof error.response !== "undefined" ? error.response.data.msg : error.message;
             console.log(error)
             console.log(message)
-            if (error.response.status===409) dispatch({type: CONTACT_DELETE, payload:id });
+            if (error.response.status===409) { 
+                dispatch({type: CONTACT_DELETE, payload:id });
+                message = "This is demo/sample contact deleted from GUI not from DB"
+            }
             //dispatch({type: CONTACTS_GET, payload: [...guestContacts] });    
             dispatch({
                 type: CONTACTS_ERROR,
@@ -188,6 +192,14 @@ const ContactState = props => {
         dispatch({type: CONTACT_ADD, payload: contact });
     }
 
+    // Clear Errors
+    const clearErrors = () => {
+    console.log("Inside clearErrors")
+        dispatch({
+            type: CLEAR_ERRORS,
+        })
+    }        
+
     return (
         <ContactContext.Provider 
             value={{
@@ -204,7 +216,8 @@ const ContactState = props => {
                 clearFilter,
                 getContacts, 
                 addContactArrOnly,
-                clearContacts
+                clearContacts,
+                clearErrors
             }}>
             { props.children }
         </ContactContext.Provider>
