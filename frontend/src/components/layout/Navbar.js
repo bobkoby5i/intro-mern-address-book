@@ -29,10 +29,10 @@ const Navbar = ({title, icon}) => {
     const guestLinks = (
         <>
               <li>
-                    <Link to='/register'><i className="fas fa-user-plus"></i> <span className="hide-sm">Register</span></Link>
+                    <Link to='/register'><i className="fas fa-user-plus hide-sm"></i>{" "}Register</Link>
                 </li>
                 <li>
-                    <Link to='/login'><i className="fas fa-sign-in-alt"></i><span className="hide-sm">{" "}Login</span></Link>
+                    <Link to='/login'><i className="fas fa-sign-in-alt hide-sm"></i>{" "}Login</Link>
                 </li>
         </>
     );    
