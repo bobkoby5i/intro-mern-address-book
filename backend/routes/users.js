@@ -7,26 +7,20 @@ const jwt = require('jsonwebtoken');
 const config = require('config'); // for ./config/default.json
 const JWT_SECRET = process.env.MERN_ADDRESS_BOOK_JWT_SECRET || config.get("JWT_SECRET"); // read from ./config/default.json
 const JWT_EXPIRE = config.get("JWT_EXPIRE");
+const myCors = require('../middleware/cors-config');
 
 
 const User = require('../models/User')
 
-// read ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com/','https://koby5i-mern-address-book.herokuapp.com/'] from:
-// ./config/default.json
-// ./config/production.json
-const CORS_ORIGIN = config.get("CORS_ORIGIN");
-console.log("/user CORS:", CORS_ORIGIN);
-
-
 let corsOptions = {
-    origin: CORS_ORIGIN,
+    origin: "*",
     methods: "POST",
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    optionsSuccessStatus: 204 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
 
 // @route GET api/users/hello
-router.get("/hello", cors(corsOptions), async (req, res) => {
+router.get("/hello", cors(myCors.corsOptionsDelegate), async (req, res) => {
     console.log("GET /api/users/hello in users.js")
     res.json({msg: 'Welcome to address book API /api/users/hello'})        
 });
@@ -37,8 +31,8 @@ router.get("/hello", cors(corsOptions), async (req, res) => {
 // @access   Public
 
 
-router.options("/", cors(corsOptions)) //// enable pre-flight request for POST 
-router.post("/", cors(corsOptions), [
+router.options("/", myCors.corsPreFlightOptionsUser) //// enable pre-flight request for POST 
+router.post("/", myCors.corsOptions, [
         check('name', 'Please enter name.').not().isEmpty(),
         check('email', 'Please include a valid email').isEmail(),
         check('password', 'Password must be 3 or more characters').isLength({min:3}),

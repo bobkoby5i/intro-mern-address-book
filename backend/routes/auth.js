@@ -9,23 +9,26 @@ const config = require('config'); // for ./config/default.json
 const JWT_SECRET = process.env.MERN_ADDRESS_BOOK_JWT_SECRET || config.get("JWT_SECRET"); // read from ./config/default.json
 const JWT_EXPIRE = config.get("JWT_EXPIRE");
 const verifyTokenJWT = require('../middleware/auth-verifytoken')
+const myCors = require('../middleware/cors-config');
+
 
 // read ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com/','https://koby5i-mern-address-book.herokuapp.com/'] from:
 // ./config/default.json
 // ./config/production.json
-const CORS_ORIGIN = config.get("CORS_ORIGIN");
-console.log("/auth CORS:", CORS_ORIGIN);
+//const CORS_ORIGIN = config.get("CORS_ORIGIN");
+//console.log("/auth CORS:", CORS_ORIGIN);
 
-  let corsOptions = {
-    //origin: ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com/','https://koby5i-mern-address-book.herokuapp.com/'],
-    origin: CORS_ORIGIN,
-    methods: "POST,GET",
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+//   let corsOptions = {
+//     //origin: ['http://localhost:3001','https://koby5i-mern-address-book-fe.herokuapp.com/','https://koby5i-mern-address-book.herokuapp.com/'],
+//     origin: CORS_ORIGIN,
+//     methods: "POST,GET",
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
   
-router.options("/", cors(corsOptions)) //// enable pre-flight request for POST   
+router.options("/", myCors.corsPreFlightOptionsAuth) //// enable pre-flight request for POST   
+router.options("/*", myCors.corsPreFlightOptionsAuth) //// enable pre-flight request for POST   
 
-router.get("/hello", cors(corsOptions), async (req, res) => {
+router.get("/hello", myCors.corsPreFlightOptionsAuth, async (req, res) => {
     console.log("GET /api/auth/hello in auth.js")
     res.json({msg: 'Welcome to address book API /api/auth/hello'})        
 });
@@ -36,7 +39,7 @@ router.get("/hello", cors(corsOptions), async (req, res) => {
 // @route    GET /api/auth/id
 // @desc     Get logged in user
 // @access   Private
-router.get("/:id", cors(corsOptions), verifyTokenJWT, async (req, res) => {
+router.get("/:id", myCors.corsOptions, verifyTokenJWT, async (req, res) => {
     const user_id = req.params.id
     console.log(`GET /api/auth/${user_id}. JWT id: ${req.user.id}`)
     if (user_id!==req.user.id) {
@@ -59,7 +62,7 @@ router.get("/:id", cors(corsOptions), verifyTokenJWT, async (req, res) => {
 // @route    GET api/auth
 // @desc     Get logged in user
 // @access   Private
-router.get("/", cors(corsOptions), verifyTokenJWT, async (req, res) => {
+router.get("/", myCors.corsOptions, verifyTokenJWT, async (req, res) => {
     console.log("GET /api/auth in auth.js", req.user.id)
     try {
         const user = await User.findById(req.user.id).select('-password'); 
@@ -78,7 +81,7 @@ router.get("/", cors(corsOptions), verifyTokenJWT, async (req, res) => {
 // @route    POST api/auth
 // @desc     Auth user and get token
 // @access   Public
-router.post("/", cors(corsOptions), [
+router.post("/", myCors.corsOptions, [
         check('email', 'Please include a valid email').isEmail(),
         check('password', 'Password is required').exists(),
     ], 

@@ -6,6 +6,7 @@ const verifyTokenJWT = require('../middleware/auth-verifytoken');
 const config = require('config'); // for ./config/default.json
 const Contact = require('../models/Contact');
 const User    = require('../models/User');
+const myCors = require('../middleware/cors-config');
 
 
 router.get("/hello", async (req, res) => {
@@ -13,23 +14,19 @@ router.get("/hello", async (req, res) => {
     res.json({msg: 'Welcome to address book API /api/contacs/hello'})        
 });
 
-const CORS_ORIGIN = config.get("CORS_ORIGIN");
-console.log("/contacts CORS:", CORS_ORIGIN);
+
 
 let corsOptions = {
-    origin: CORS_ORIGIN,
-    methods: "POST,GET,PUT,DELETE",
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+    origin: "http://localhost:3000",
+}
 
-
-router.options("/", cors(corsOptions)) //// enable pre-flight request for POST   
-router.options("/*", cors(corsOptions)) //// enable pre-flight request for POST   
+router.options("/",  myCors.corsPreFlightOptionsContacts) // enable pre-flight request for POST, GET, PUT, DELETE   
+router.options("/*", myCors.corsPreFlightOptionsContacts) // enable pre-flight request for POST   
 
 // @route    GET api/contacts
 // @desc     Get all users conatcs 
 // @access   Private
-router.get("/", cors(corsOptions), verifyTokenJWT, async (req, res) => {
+router.get("/", myCors.corsOptions, verifyTokenJWT, async (req, res) => {
     console.log("GET /api/contacts in contacs.js");
 
     try {
@@ -47,7 +44,7 @@ router.get("/", cors(corsOptions), verifyTokenJWT, async (req, res) => {
 // @route    POST api/contacts
 // @desc     Add new contact
 // @access   Private
-router.post("/", cors(corsOptions), [verifyTokenJWT, [
+router.post("/", myCors.corsOptions, [verifyTokenJWT, [
         check('name', 'Name is required').not().isEmpty(),
         check('email', 'Please include a valid email').isEmail(),
     ]], 
@@ -80,7 +77,7 @@ router.post("/", cors(corsOptions), [verifyTokenJWT, [
 // @route    PUT api/contacts/{id}
 // @desc     Update existing contact
 // @access   Private
-router.put("/:id", cors(corsOptions), verifyTokenJWT,  
+router.put("/:id", myCors.corsOptions, verifyTokenJWT,  
     async (req, res) => {
     console.log("contacs.js: PUT /api/contacts/"+req.params.id);
 
@@ -108,7 +105,7 @@ router.put("/:id", cors(corsOptions), verifyTokenJWT,
 // @route    DELETE api/contacts/{id}
 // @desc     DELETE exising contact
 // @access   Private
-router.delete("/:id",cors(corsOptions), verifyTokenJWT, async (req, res) => {
+router.delete("/:id",myCors.corsOptions, verifyTokenJWT, async (req, res) => {
     console.log("contacts.js: DELETE /api/contacts")
 
     try {
